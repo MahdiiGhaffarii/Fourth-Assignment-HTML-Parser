@@ -6,8 +6,13 @@ public class Country {
     private int population;
     private double area;
 
-    public Country(String name, String capital, int population, double area) {
-        //TODO
+    public Country(String name, String capital, int population, double area)
+
+    {
+        this.name = name;
+        this.capital = capital;
+        this.population = population;
+        this.area = area;
 
     }
 
@@ -28,9 +33,14 @@ public class Country {
     }
 
     @Override
-    public String toString() {
-        //TODO
-        return "";
+    public String toString()
+    {
+        String Final = "";
+        Final = Final + this.name;
+        Final = Final + " " + this.capital;
+        Final = Final + " " + this.population;
+        Final = Final + this.area;
+        return Final;
     }
 
     @Override

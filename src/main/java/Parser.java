@@ -9,40 +9,58 @@ import java.util.*;
 public class Parser {
     static List<Country> countries = new ArrayList<>();
 
-    public List<Country> sortByName(){
-        List<Country> sortedByName = new ArrayList<>(countries);
-        // Sort countries alphabetically (least)
-        //TODO
+    public static List<Country> sortByName()
+    {
+        List<Country> sortedByName = countries;
+        Collections.sort(sortedByName, Comparator.comparing(Country::getName));
         return  sortedByName;
     }
 
-    public List<Country> sortByPopulation(){
-        List<Country> sortedByPopulation = new ArrayList<>(countries);
-        // Sort countries by population (most)
-        //TODO
+    public static List<Country> sortByPopulation()
+    {
+        List<Country> sortedByPopulation = countries;
+        Collections.sort(sortedByPopulation, Comparator.comparing(Country::getPopulation));
+        Collections.reverse(sortedByPopulation);
         return sortedByPopulation;
     }
 
-    public List<Country> sortByArea(){
-        List<Country> sortedByArea = new ArrayList<>(countries);
-        // Sort countries by area (most)
-        //TODO
-        return sortedByArea;
+    public static List<Country> sortByArea()
+    {
+        List<Country> sortedByArea = countries;
+        Collections.sort(sortedByArea, Comparator.comparing(Country::getArea));
+        Collections.reverse(sortedByArea);
+        return  sortedByArea ;
     }
 
-    public void setUp() throws IOException {
+    public static void setUp() throws IOException
+    {
+        try {
+            File HTMLFile = new File("src\\Resources\\country-list.html");
+            Document Doc1 = Jsoup.parse(HTMLFile, "UTF-8");
+            Elements Countries = Doc1.select(".country");
 
-        //Parse the HTML file using Jsoup
-        //TODO
-
-        // Extract data from the HTML
-        //TODO
-
-        // Iterate through each country div to extract country data
-        //TODO
+            for (Element country : Countries)
+            {
+                try
+                {
+                    int population = Integer.parseInt(country.select(".country-population").text());
+                    double area = Double.parseDouble(country.select(".country-area").text());
+                    String countryName = country.select(".country-name").text();
+                    String capital = country.select(".country-capital").text();
+                    countries.add(new Country(countryName, capital, population, area));
+                }
+                catch (NumberFormatException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
-
-    public static void main(String[] args) {
-        //you can test your code here before you run the unit tests ;)
+    public static void main(String[] args) throws IOException
+    {
     }
 }
